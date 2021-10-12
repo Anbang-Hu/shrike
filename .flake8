@@ -10,3 +10,4 @@ exclude =
     tests, 
     shrike/build,
     shrike/pipeline
+    ./build/lib/shrike

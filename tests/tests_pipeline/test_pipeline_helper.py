@@ -330,7 +330,7 @@ def test_apply_windows_runsettings(mpi):
 
     # Testing input and output mode
     assert module_instance.inputs.input_path.mode == "download"
-    assert module_instance.outputs.output_path.output_mode == "upload"
+    assert module_instance.outputs.output_path.mode == "upload"
 
 
 def test_apply_hdi_runsettings():
@@ -389,7 +389,7 @@ def test_apply_hdi_runsettings():
 
     # Testing input and output mode
     assert module_instance.inputs.input_path.mode is None
-    assert module_instance.outputs.output_path.output_mode is None
+    assert module_instance.outputs.output_path.mode is None
 
 
 @pytest.mark.parametrize(
@@ -436,7 +436,7 @@ def test_apply_linux_runsettings(mpi, gpu):
 
     # Testing input and output mode
     assert module_instance.inputs.input_path.mode == "download"
-    assert module_instance.outputs.output_path.output_mode == "upload"
+    assert module_instance.outputs.output_path.mode == "upload"
 
 
 @pytest.mark.parametrize(
