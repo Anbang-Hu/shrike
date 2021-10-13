@@ -1085,7 +1085,9 @@ class AMLPipelineHelper:
                         f"The pipeline tags {self.config.run.tags} is not a valid json-style string."
                     )
             elif isinstance(self.config.run.tags, DictConfig):
-                pipeline_tags.update(self.config.run.tags)
+                # NOTE: values for tags need to be str
+                for key, value in self.config.run.tags.items():
+                    pipeline_tags[key] = str(value)
             else:
                 log.warning(
                     f"The pipeline tags {self.config.run.tags} is not a valid DictConfig or json-style string."
