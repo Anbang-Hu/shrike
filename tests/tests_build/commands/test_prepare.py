@@ -877,7 +877,7 @@ def test_add_repo_and_last_pr_to_tags():
 
     prep.add_repo_and_last_pr_to_tags([component_path])
     with open(component_path) as f:
-        spec_file = yaml.load(f)
+        spec_file = yaml.safe_load(f)
     spec_tags = spec_file.get("tags")
     assert "repo" in spec_tags
     assert "last_commit_id" in spec_tags
