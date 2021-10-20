@@ -1376,7 +1376,7 @@ class AMLPipelineHelper:
         pipeline = self.pipeline_instance(pipeline_function, self.config)
 
         log.info("Validating...")
-        pipeline.validate()
+        pipeline.validate(workspace=current_workspace())
 
         if self.config.run.export:
             log.info(f"Exporting to {self.config.run.export}...")
