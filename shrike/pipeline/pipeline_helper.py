@@ -1392,6 +1392,7 @@ class AMLPipelineHelper:
             # pipeline_run is of the class "azure.ml.component.run", which
             # is different from "azureml.pipeline.core.PipelineRun"
             pipeline_run = pipeline.submit(
+                workspace=current_workspace(),
                 experiment_name=self.config.run.experiment_name,
                 description=self.config.run.experiment_description,
                 tags=pipeline_tags,
