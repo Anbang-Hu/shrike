@@ -56,17 +56,17 @@ def test_spark_hello_build_deep_test(pipeline_config_path):
         pipeline_instance is not None
     ), "main function should return a pipeline instance"
 
-    # # checks the exported file in temp dir
-    # assert os.path.isfile(json_export_path), "main function should generate a json file"
+    # checks the exported file in temp dir
+    assert os.path.isfile(json_export_path), "main function should generate a json file"
 
-    # deeptest_graph_comparison(
-    #     # exported graph
-    #     json_export_path,
-    #     # reference graph
-    #     os.path.join(
-    #         os.path.dirname(__file__), "data", "spark_hello_export_reference.json"
-    #     ),
-    # )
+    deeptest_graph_comparison(
+        # exported graph
+        json_export_path,
+        # reference graph
+        os.path.join(
+            os.path.dirname(__file__), "data", "spark_hello_export_reference.json"
+        ),
+    )
 
 
 def test_stats_passthrough_build_deep_test(pipeline_config_path):
@@ -96,14 +96,14 @@ def test_stats_passthrough_build_deep_test(pipeline_config_path):
         pipeline_instance is not None
     ), "main function should return a pipeline instance"
 
-    # deeptest_graph_comparison(
-    #     # exported graph
-    #     json_export_path,
-    #     # reference graph
-    #     os.path.join(
-    #         os.path.dirname(__file__), "data", "stats_passthrough_export_reference.json"
-    #     ),
-    # )
+    deeptest_graph_comparison(
+        # exported graph
+        json_export_path,
+        # reference graph
+        os.path.join(
+            os.path.dirname(__file__), "data", "stats_passthrough_export_reference.json"
+        ),
+    )
 
 
 def test_multinode_training_build_deep_test(pipeline_config_path):
@@ -133,16 +133,16 @@ def test_multinode_training_build_deep_test(pipeline_config_path):
         pipeline_instance is not None
     ), "main function should return a pipeline instance"
 
-    # deeptest_graph_comparison(
-    #     # exported graph
-    #     json_export_path,
-    #     # reference graph
-    #     os.path.join(
-    #         os.path.dirname(__file__),
-    #         "data",
-    #         "multinode_training_export_reference.json",
-    #     ),
-    # )
+    deeptest_graph_comparison(
+        # exported graph
+        json_export_path,
+        # reference graph
+        os.path.join(
+            os.path.dirname(__file__),
+            "data",
+            "multinode_training_export_reference.json",
+        ),
+    )
 
 
 def test_convert_tsv_to_ss(pipeline_config_path):
@@ -171,13 +171,13 @@ def test_convert_tsv_to_ss(pipeline_config_path):
         pipeline_instance is not None
     ), "main function should return a pipeline instance"
 
-    # deeptest_graph_comparison(
-    #     # exported graph
-    #     json_export_path,
-    #     # reference graph
-    #     os.path.join(
-    #         os.path.dirname(__file__),
-    #         "data",
-    #         "convert_tsv_to_ss_reference.json",
-    #     ),
-    # )
+    deeptest_graph_comparison(
+        # exported graph
+        json_export_path,
+        # reference graph
+        os.path.join(
+            os.path.dirname(__file__),
+            "data",
+            "convert_tsv_to_ss_reference.json",
+        ),
+    )

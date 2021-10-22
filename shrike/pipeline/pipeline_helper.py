@@ -1378,10 +1378,10 @@ class AMLPipelineHelper:
         log.info("Validating...")
         pipeline.validate(workspace=current_workspace())
 
-        # if self.config.run.export:
-        #     log.info(f"Exporting to {self.config.run.export}...")
-        #     with open(self.config.run.export, "w") as export_file:
-        #         export_file.write(pipeline._get_graph_json())
+        if self.config.run.export:
+            log.info(f"Exporting to {self.config.run.export}...")
+            with open(self.config.run.export, "w") as export_file:
+                export_file.write(pipeline._get_graph_json())
 
         if self.config.run.submit:
             pipeline_tags = self._parse_pipeline_tags()
