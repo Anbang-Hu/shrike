@@ -1,7 +1,6 @@
 azureml-pipeline~=1.34.0
-azure-ml-component[notebooks]==0.1.0.49926620
 --extra-index-url https://azuremlsdktestpypi.azureedge.net/modulesdkpreview
-
+azure-ml-component[notebooks]==0.1.0.49926620
 cryptography~=3.3.2
 azure-cli-core~=2.22
 ruamel.yaml~=0.16
