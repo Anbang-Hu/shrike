@@ -201,30 +201,31 @@ def scrub_exception(
     keep = keep_message or is_exception_allowed(exception, allow_list)
     transformer = _attribute_transformer(prefix, scrub_message, keep)
 
-    for attr in dir(exception):
-        if attr and not attr.startswith("__"):
-            try:
-                value = getattr(exception, attr)
-            except AttributeError:
-                # In some cases, e.g. FileNotFoundError, there are attributes
-                # which show up in dir(e), but for which an AttributeError is
-                # thrown when attempting to access the value. See, e.g.:
-                # https://stackoverflow.com/q/47775772 .
-                continue
-            try:
-                # If unable to transform or set the attribute, replace the
-                # entire exception since the attribute value is readable, but
-                # we are unable to scrub it.
-                new_value = transformer(value)
-                setattr(exception, attr, new_value)
-            except BaseException as e:
-                new_exception = PublicRuntimeError(
-                    f"{prefix} Obtained {type(e).__name__} when trying to scrub {attr} from {type(exception).__name__}"  # noqa: E501
-                )
-                new_exception.__cause__ = exception.__cause__
-                new_exception.__context__ = exception.__context__
-                exception = new_exception
-                break
+    if not keep:
+        for attr in dir(exception):
+            if attr and not attr.startswith("__"):
+                try:
+                    value = getattr(exception, attr)
+                except AttributeError:
+                    # In some cases, e.g. FileNotFoundError, there are attributes
+                    # which show up in dir(e), but for which an AttributeError is
+                    # thrown when attempting to access the value. See, e.g.:
+                    # https://stackoverflow.com/q/47775772 .
+                    continue
+                try:
+                    # If unable to transform or set the attribute, replace the
+                    # entire exception since the attribute value is readable, but
+                    # we are unable to scrub it.
+                    new_value = transformer(value)
+                    setattr(exception, attr, new_value)
+                except BaseException as e:
+                    new_exception = PublicRuntimeError(
+                        f"{prefix} Obtained {type(e).__name__} when trying to scrub {attr} from {type(exception).__name__}"  # noqa: E501
+                    )
+                    new_exception.__cause__ = exception.__cause__
+                    new_exception.__context__ = exception.__context__
+                    exception = new_exception
+                    break
 
     return exception
 

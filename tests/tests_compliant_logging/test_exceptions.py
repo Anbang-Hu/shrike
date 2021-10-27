@@ -83,7 +83,8 @@ def test_prefix_stack_trace_works_with_file_not_found():
         function()
 
     log_lines = file.getvalue()
-    assert f"SystemLog:No such file or directory: 'SystemLog:{file_name}'" in log_lines
+    assert f"SystemLog: FileNotFoundError: " in log_lines
+    assert file_name in log_lines
 
 
 def test_prefix_stack_trace_replaces_exception_with_readonly_attribute():
@@ -157,7 +158,7 @@ def test_prefix_stack_trace_respects_keep_message(prefix, exec_type, message, ke
         with PrefixStackTrace(prefix=prefix, keep_message=keep):
             raise exec_type(message)
 
-    assert prefix in str(exec_info.value)
+    assert (prefix in str(exec_info.value)) is not keep
     assert (message in str(exec_info.value)) == keep
 
 
@@ -320,8 +321,7 @@ def test_prefix_stack_trace_throws_correctly(keep_message, allow_list):
         assert message in str(info.value)
     else:
         assert SCRUB_MESSAGE in str(info.value)
-
-    assert PREFIX in str(info.value)
+    assert (PREFIX in str(info.value)) == (not keep_message and len(allow_list) == 0)
     assert info.type == e_type
 
 
@@ -448,3 +448,42 @@ def test_scrub_exception_works_with_loop_in_traceback():
         scrubbed = scrub_exception(be, SCRUB_MESSAGE, PREFIX, True, [])
 
     assert scrubbed is not None
+
+
+def test_scrub_exception_works_with_failed_getattr():
+    """
+    Test whether scrub_exception works if getattr() returns an
+    error when keep_message=True
+    """
+
+    class DummyException(Exception):
+        def __init__(self):
+            super().__init__()
+
+        def __getattribute__(self, name):
+            if name == "args":
+                raise ValueError("can't get attribute")
+            elif name in dir(Exception()):
+                return getattr(Exception(), name)
+
+    with pytest.raises(ValueError):
+        getattr(DummyException(), "args")
+
+    # Expected to work
+    scrub_exception(
+        exception=DummyException(),
+        scrub_message=SCRUB_MESSAGE,
+        prefix=PREFIX,
+        keep_message=True,
+        allow_list=[],
+    )
+
+    # Expected to fail and raise an error
+    with pytest.raises(ValueError):
+        scrub_exception(
+            exception=DummyException(),
+            scrub_message=SCRUB_MESSAGE,
+            prefix=PREFIX,
+            keep_message=False,
+            allow_list=[],
+        )
