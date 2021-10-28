@@ -1376,12 +1376,14 @@ class AMLPipelineHelper:
         pipeline = self.pipeline_instance(pipeline_function, self.config)
 
         log.info("Validating...")
-        pipeline.validate()
+        pipeline.validate(workspace=current_workspace())
 
         if self.config.run.export:
             log.info(f"Exporting to {self.config.run.export}...")
             with open(self.config.run.export, "w") as export_file:
-                export_file.write(pipeline._get_graph_json())
+                export_file.write(
+                    pipeline._get_graph_json(workspace=current_workspace())
+                )
 
         if self.config.run.submit:
             pipeline_tags = self._parse_pipeline_tags()
@@ -1392,6 +1394,7 @@ class AMLPipelineHelper:
             # pipeline_run is of the class "azure.ml.component.run", which
             # is different from "azureml.pipeline.core.PipelineRun"
             pipeline_run = pipeline.submit(
+                workspace=current_workspace(),
                 experiment_name=self.config.run.experiment_name,
                 description=self.config.run.experiment_description,
                 tags=pipeline_tags,

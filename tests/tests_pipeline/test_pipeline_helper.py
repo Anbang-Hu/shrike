@@ -290,7 +290,7 @@ def test_apply_recommended_runsettings_datatransfer_datastore(compliant, datasto
         "data_transfer", step_instance, datatransfer=True, compliant=compliant
     )
 
-    assert step_instance.outputs.destination_data.datastore.name == datastore
+    assert step_instance.outputs.destination_data.datastore == datastore
 
 
 @pytest.mark.parametrize("mpi", [True, False])

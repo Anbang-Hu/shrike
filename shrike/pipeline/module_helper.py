@@ -199,7 +199,7 @@ class AMLModuleLoader:
         log.info("Building module from local code at {}".format(module_spec_path))
         if not os.path.isfile(module_spec_path):
             module_spec_path = os.path.join(self.local_steps_folder, module_spec_path)
-        loaded_module_class = Component.from_yaml(current_workspace(), module_spec_path)
+        loaded_module_class = Component.from_yaml(yaml_file=module_spec_path)
         self.put_in_cache(module_cache_key, loaded_module_class)
 
         return loaded_module_class
