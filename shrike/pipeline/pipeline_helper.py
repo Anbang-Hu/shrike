@@ -258,7 +258,9 @@ class AMLPipelineHelper:
             if output_mode is None:
                 output_instance.configure(datastore=datastore_name)
             else:
-                output_instance.configure(datastore=datastore_name, output_mode=output_mode)
+                output_instance.configure(
+                    datastore=datastore_name, output_mode=output_mode
+                )
             log.info(
                 f"Configured output {output_key} to use mode {output_mode} and datastore {datastore_name}"
             )
