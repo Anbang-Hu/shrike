@@ -256,20 +256,9 @@ class AMLPipelineHelper:
         for output_key in output_names:
             output_instance = getattr(module_instance.outputs, output_key)
             if output_mode is None:
-                output_instance.configure(
-                    datastore=Datastore(
-                        current_workspace(),
-                        name=datastore_name,
-                    )  # datastore name for storing outputs
-                )
+                output_instance.configure(datastore=datastore_name)
             else:
-                output_instance.configure(
-                    datastore=Datastore(
-                        current_workspace(),
-                        name=datastore_name,
-                    ),  # datastore name for storing outputs
-                    output_mode=output_mode,
-                )
+                output_instance.configure(datastore=datastore_name, output_mode=output_mode)
             log.info(
                 f"Configured output {output_key} to use mode {output_mode} and datastore {datastore_name}"
             )
